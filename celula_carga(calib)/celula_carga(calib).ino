@@ -8,7 +8,7 @@ HX711 escala;
 void setup()
 {
   escala.begin(DT, SCK);
-  Serial.begin(115200);
+  Serial.begin(9600);
   Serial.print("Leitura da Tara:  ");
   Serial.println(escala.read());
   Serial.println("Aguarde!");
@@ -29,6 +29,6 @@ void setup()
 }*/
 void loop()
 {
-  Serial.println(escala.get_value(100), 0);
-  delay(10000);
+  Serial.println(escala.get_value(10), 0);
+  delay(500);
 }
