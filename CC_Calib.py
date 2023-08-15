@@ -14,7 +14,7 @@ except:
     print("Erro ao abrir porta serial. ")
     time.sleep(2)
     exit()
-    
+
 def endCheck():
     b = ser.readline()
     string_n = b.decode()
