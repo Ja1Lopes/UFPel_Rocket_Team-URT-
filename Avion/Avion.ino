@@ -42,8 +42,6 @@ void loop()
         h = dht.readHumidity();
         t = dht.readTemperature();
         hic = dht.computeHeatIndex(t, h, false);
-
-        
     }
 }
 
