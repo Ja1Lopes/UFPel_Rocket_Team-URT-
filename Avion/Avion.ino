@@ -1,34 +1,51 @@
-#include <Adafruit_Sensor.h>
-#include "DHT.h"
-#include <SD.h>
-#include <SPI.h>
+#include <GY521_registers.h>
+#include <GY521.h>
+#include <Adafruit_BMP085.h>
+#include <Wire.h>
 
-#define DHTPIN 2
-#define DHTTYPE DHT11
+Adafruit_BMP085 bmp;
+
+GY521 sensor(0x68);
 
 #define buzz 3
-
-#define SDModule 4
-
-DHT dht(DHTPIN, DHTTYPE);
 
 unsigned long currentMillis = 0;
 unsigned long intervalData = 0;
 
-float h, t, hic;
+float temperatura, altitude, pressao;
+float pitch, roll, yaw;
 
 void setup()
 {
     Serial.begin(9600);
+    Wire.begin();
+
+    delay(100);
+
+    if (!bmp.begin())
+    {
+        debug(2);
+        while (1)
+        {
+        }
+    }
+
+    while (sensor.wakeup() == false)
+    {
+        debug(3);
+    }
+    sensor.setAccelSensitivity(2); // 8g
+    sensor.setGyroSensitivity(1);  // 500 degrees/s
+    sensor.setThrottle();
+
+    sensor.axe = 0.574;
+    sensor.aye = -0.002;
+    sensor.aze = -1.043;
+    sensor.gxe = 10.702;
+    sensor.gye = -6.436;
+    sensor.gze = -0.676;
 
     pinMode(buzz, OUTPUT);
-
-    if (!SD.begin(SDModule))
-    {
-        Serial.println("Card failed, or not present");
-        debug(2);
-    }
-    dht.begin();
 
     debug(1);
 }
@@ -39,9 +56,18 @@ void loop()
 
     if (currentMillis - intervalData > 100)
     {
-        h = dht.readHumidity();
-        t = dht.readTemperature();
-        hic = dht.computeHeatIndex(t, h, false);
+        sensor.read();
+        temperatura = bmp.readTemperature();
+        altitude = bmp.readAltitude();
+        pressao = bmp.readPressure();
+        pitch = sensor.getPitch();
+        roll = sensor.getRoll();
+        yaw = sensor.getYaw();
+        int meds[6] = {temperatura, altitude, pressao, pitch, roll, yaw};
+        for (int i = 0; i < sizeof(meds); i++)
+        {
+            Serial.println(meds[i]);
+        }
     }
 }
 
