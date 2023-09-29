@@ -3,7 +3,7 @@
 #define DT A1
 #define SCK A0
 
-const float scale = 9999;
+const float scale = 102234.25;
 
 HX711 escala;
 
