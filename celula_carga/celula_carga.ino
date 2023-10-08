@@ -5,24 +5,37 @@
 
 const float scale = 102234.25;
 
-HX711 escala;
-
+HX711 scaleSensor;
 
 void setup()
 {
-  escala.begin(DT, SCK);
   Serial.begin(115200);
-  Serial.print("Leitura da Tara:  ");
-  Serial.println(escala.read());
-  Serial.println("Aguarde!");
-  Serial.println("Iniciando ...");
-  escala.set_scale(scale);
-  escala.tare(20);
-  Serial.println("Insira o item para Pesar");
+  Serial.println("Initializing...");
+
+  scaleSensor.begin(DT, SCK);
+  Serial.print("Tare Reading: ");
+  Serial.println(scaleSensor.read());
+  delay(1000);
+
+  scaleSensor.set_scale(scale);
+  scaleSensor.tare();
+  Serial.println("Place the item to weigh.");
 }
 
 void loop()
 {
-    Serial.print("Peso em Kg: ");
-    Serial.println(escala.get_units(20), 3);
+  Serial.print("Kg: ");
+  float weight = scaleSensor.get_units(10);
+  Serial.print(weight);
+  Serial.print("  |  Raw Value: ");
+  int rawValue = scaleSensor.get_value(10);
+  Serial.println(rawValue);
+
+  // Send the data to the PC via USB
+  Serial.print(weight);
+  Serial.print(",");
+  Serial.println(rawValue);
+
+  // Add a delay to control the rate of readings
+  delay(50);
 }
