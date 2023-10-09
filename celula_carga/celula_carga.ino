@@ -6,13 +6,13 @@
 #define SCK A0
 
 const float scale = 102234.25;
-const int chipSelect = 4;
+const int chipSelect = 10;
 
 HX711 scaleSensor;
 
 void setup()
 {
-  Serial.begin(115200);
+  Serial.begin(9600);
   Serial.println("Initializing...");
 
   if (!SD.begin(chipSelect))
