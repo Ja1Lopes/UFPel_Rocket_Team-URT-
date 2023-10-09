@@ -1,9 +1,12 @@
 #include "HX711.h"
+#include <SD.h>
+#include <SPI.h>
 
 #define DT A1
 #define SCK A0
 
 const float scale = 102234.25;
+const int chipSelect = 4;
 
 HX711 scaleSensor;
 
@@ -11,6 +14,13 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println("Initializing...");
+
+  if (!SD.begin(chipSelect))
+  {
+    Serial.println("Card failed, or not present");
+    while (1)
+      ;
+  }
 
   scaleSensor.begin(DT, SCK);
   Serial.print("Tare Reading: ");
@@ -31,11 +41,35 @@ void loop()
   int rawValue = scaleSensor.get_value(10);
   Serial.println(rawValue);
 
-  // Send the data to the PC via USB
-  Serial.print(weight);
-  Serial.print(",");
-  Serial.println(rawValue);
+  String data = String(weight) + "," + String(rawValue);
+  datalog(data);
+  secondDatalog(data);
 
-  // Add a delay to control the rate of readings
-  delay(50);
+  delay(100);
+}
+
+void datalog(String dataString)
+{
+  File dataFile = SD.open("datalog.txt", FILE_WRITE);
+  if (dataFile)
+  {
+    dataFile.println(dataString);
+    dataFile.close();
+    Serial.println(dataString);
+  }
+  else
+  {
+    Serial.println("error opening datalog.txt");
+  }
+}
+
+void secondDatalog(String dataString)
+{
+  File dataFile = SD.open(String(millis() / 1000), FILE_WRITE);
+  if (dataFile)
+  {
+    dataFile.println(dataString);
+    dataFile.close();
+    Serial.println(dataString);
+  }
 }
