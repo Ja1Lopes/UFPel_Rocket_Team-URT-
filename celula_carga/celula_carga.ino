@@ -8,18 +8,21 @@
 const float scale = 102234.25;
 const int chipSelect = 10;
 
+File dataFile;
 HX711 scaleSensor;
+
+void (*resetFunc)(void) = 0;
 
 void setup()
 {
-  Serial.begin(9600);
+  Serial.begin(115200);
   Serial.println("Initializing...");
 
   if (!SD.begin(chipSelect))
   {
     Serial.println("Card failed, or not present");
-    while (1)
-      ;
+    delay(2000);
+    resetFunc();
   }
 
   scaleSensor.begin(DT, SCK);
@@ -43,14 +46,13 @@ void loop()
 
   String data = String(weight) + "," + String(rawValue);
   datalog(data);
-  secondDatalog(data);
 
   delay(100);
 }
 
 void datalog(String dataString)
 {
-  File dataFile = SD.open("datalog.txt", FILE_WRITE);
+  dataFile = SD.open("datalog.txt", FILE_WRITE);
   if (dataFile)
   {
     dataFile.println(dataString);
@@ -61,15 +63,5 @@ void datalog(String dataString)
   {
     Serial.println("error opening datalog.txt");
   }
-}
-
-void secondDatalog(String dataString)
-{
-  File dataFile = SD.open(String(millis() / 1000), FILE_WRITE);
-  if (dataFile)
-  {
-    dataFile.println(dataString);
-    dataFile.close();
-    Serial.println(dataString);
-  }
+  dataFile.close();
 }
