@@ -56,7 +56,6 @@ void datalog(String dataString)
   if (dataFile)
   {
     dataFile.println(dataString);
-    dataFile.close();
     Serial.println(dataString);
   }
   else
