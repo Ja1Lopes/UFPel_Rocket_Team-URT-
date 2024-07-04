@@ -17,7 +17,7 @@ float pitch, roll, yaw;
 
 void setup()
 {
-    Serial.begin(9600);
+    Serial.begin(115200);
     Wire.begin();
 
     delay(100);
@@ -53,8 +53,20 @@ void setup()
 void loop()
 {
     currentMillis = millis();
-
-    if (currentMillis - intervalData > 100)
+    sensor.read();
+    temperatura = bmp.readTemperature();
+    altitude = bmp.readAltitude();
+    pressao = bmp.readPressure();
+    pitch = sensor.getPitch();
+    roll = sensor.getRoll();
+    yaw = sensor.getYaw();
+    int meds[6] = {temperatura, altitude, pressao, pitch, roll, yaw};
+    for (int i = 0; i < sizeof(meds); i++)
+    {
+        Serial.println(meds[i]);
+    }
+    delay(1000);
+    /*if (currentMillis - intervalData > 1000)
     {
         sensor.read();
         temperatura = bmp.readTemperature();
@@ -68,7 +80,7 @@ void loop()
         {
             Serial.println(meds[i]);
         }
-    }
+    }*/
 }
 
 void debug(int n)
