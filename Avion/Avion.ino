@@ -2,25 +2,41 @@
 #include <Adafruit_MPU6050.h>
 #include <Adafruit_Sensor.h>
 #include <Wire.h>
+#include <SD.h>
+#include <SPI.h>
+
+#define DEBUG_PRINT
+
+#define SDCS 10 //mudar para porta soldada
 
 Adafruit_MPU6050 mpu;
 Adafruit_BMP085 bmp;
 
 // Variaveis para receber os valores de aceleração dos eixos
-int valoranteriorX = 0;
-int valoranteriorY = 0;
-int valoranteriorZ = 0;
+int valorAnteriorX = 0;
+int valorAnteriorY = 0;
+int valorAnteriorZ = 0;
+
+float offsetX = 0; // calibração
+float offsetY = 0;
+float offsetZ = 0;
 
 unsigned long currentMillis = 0;
-unsigned long intervalData = 0;
-
-float altitude, pressao;
+unsigned long previousMillis = 0;
 
 void setup(void)
 {
+#ifdef DEBUG_PRINT
     Serial.begin(115200); // iniciar o monitor serial
+#endif
     Wire.begin();
 
+    if (!SD.begin(SDCS))
+    {
+        Serial.println(F("Leitura Falhou"));
+        while (1)
+            ;
+    }
     // Verifica se o módulo GY-521 (MPU6050) está conectado
     if (!mpu.begin())
     {
@@ -107,6 +123,64 @@ void setup(void)
 
 void loop()
 {
+    currentMillis = millis();
+    if (currentMillis - previousMillis > 100)
+    {
+        previousMillis = currentMillis;
+        String data_string = "";
+        float gyroX = 0;
+        float gyroY = 0;
+        float gyroZ = 0;
+        float accelX = 0;
+        float accelY = 0;
+        float accelZ = 0;
+        float pressure = 0;
+        float altitude = 0;
+
+        sensors_event_t a, g, temp;
+        mpu.getEvent(&a, &g, &temp);
+
+        accelX = a.acceleration.x;
+        accelY = a.acceleration.y;
+        accelZ = a.acceleration.z;
+        gyroX = g.gyro.x - offsetX;
+        gyroY = g.gyro.y - offsetY;
+        gyroZ = g.gyro.z - offsetZ;
+        pressure = bmp.readPressure();
+        altitude = bmp.readAltitude();
+
+        data_string += String(accelX);
+        data_string += "|";
+        data_string += String(accelY);
+        data_string += "|";
+        data_string += String(accelZ);
+        data_string += "|";
+        data_string += String(gyroX);
+        data_string += "|";
+        data_string += String(gyroY);
+        data_string += "|";
+        data_string += String(gyroZ);
+        data_string += "|";
+        data_string += String(pressure);
+        data_string += "|";
+        data_string += String(altitude);
+
+        logging(data_string);
+    }
+}
+
+void logging(String data)
+{
+    File dataFile = SD.open("dados.txt", FILE_APPEND);
+    if (dataFile)
+    {
+        dataFile.println(data);
+        dataFile.close();
+    }
+}
+
+void test()
+{
     // Variáveis para leitura do Acelerometro, Giroscopio e Tempratura.
     sensors_event_t a, g, temp;
     mpu.getEvent(&a, &g, &temp);
@@ -141,5 +215,5 @@ void loop()
     Serial.println("Pa");
 
     Serial.println("");
-    delay(500); // Atraso definido em milisegundos entre as leituras
+    delay(100); // Atraso definido em milisegundos entre as leituras
 }
