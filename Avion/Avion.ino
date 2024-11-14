@@ -13,7 +13,7 @@ Adafruit_MPU6050 mpu;
 Adafruit_BMP085 bmp;
 
 // Variaveis para receber os valores de aceleração dos eixos
-int valorAnteriorAltitude = 0;
+unsigned int valorAnteriorAltitude = 0;
 
 unsigned long currentMillis = 0;
 unsigned long previousMillis = 0;
@@ -74,8 +74,8 @@ void loop()
         float accelX = 0;
         float accelY = 0;
         float accelZ = 0;
-        int pressure = 0;
-        int altitude = 0;
+        unsigned int pressure = 0;
+        unsigned int altitude = 0;
 
         sensors_event_t a, g, temp;
         mpu.getEvent(&a, &g, &temp);
@@ -87,12 +87,15 @@ void loop()
         gyroY = g.gyro.y;
         gyroZ = g.gyro.z;
         pressure = bmp.readPressure();
-        altitude = bmp.readAltitude();
-        if (altitude < (valorAnteriorAltitude))
+        altitude = bmp.readAltitude(round(pressure*1.001));
+
+        if (altitude < valorAnteriorAltitude)
         {
             digitalWrite(triggerChute, HIGH);
+            Serial.println("Paracaidas");
+            debug(2);
         }
-        valorAnteriorAltitude = altitude - 10;
+        valorAnteriorAltitude = altitude - 2;
 
         data_string += String(accelX);
         data_string += "|";
