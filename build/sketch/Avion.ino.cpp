@@ -1,5 +1,5 @@
 #include <Arduino.h>
-#line 1 "/home/lopes/Documents/GitHub/UFPel_Rocket_Team-URT-/Avion/Avion.ino"
+#line 1 "/home/lopes/Documents/GitHub/Rocket_Team/Avion/Avion.ino"
 #include <Adafruit_BMP085.h>
 #include <Adafruit_MPU6050.h>
 #include <Adafruit_Sensor.h>
@@ -14,21 +14,23 @@
 Adafruit_MPU6050 mpu;
 Adafruit_BMP085 bmp;
 
-// Variaveis para receber os valores de aceleração dos eixos
 int valorAnteriorAltitude = 0;
 
 unsigned long currentMillis = 0;
 unsigned long previousMillis = 0;
+unsigned long chuteLastTriggered = 0;
 
-#line 21 "/home/lopes/Documents/GitHub/UFPel_Rocket_Team-URT-/Avion/Avion.ino"
+#line 21 "/home/lopes/Documents/GitHub/Rocket_Team/Avion/Avion.ino"
 void setup(void);
-#line 64 "/home/lopes/Documents/GitHub/UFPel_Rocket_Team-URT-/Avion/Avion.ino"
+#line 64 "/home/lopes/Documents/GitHub/Rocket_Team/Avion/Avion.ino"
 void loop();
-#line 117 "/home/lopes/Documents/GitHub/UFPel_Rocket_Team-URT-/Avion/Avion.ino"
+#line 160 "/home/lopes/Documents/GitHub/Rocket_Team/Avion/Avion.ino"
 void logging(String data);
-#line 127 "/home/lopes/Documents/GitHub/UFPel_Rocket_Team-URT-/Avion/Avion.ino"
+#line 175 "/home/lopes/Documents/GitHub/Rocket_Team/Avion/Avion.ino"
 void debug(int qtd);
-#line 21 "/home/lopes/Documents/GitHub/UFPel_Rocket_Team-URT-/Avion/Avion.ino"
+#line 198 "/home/lopes/Documents/GitHub/Rocket_Team/Avion/Avion.ino"
+float smoothAltitude(float newAltitude);
+#line 21 "/home/lopes/Documents/GitHub/Rocket_Team/Avion/Avion.ino"
 void setup(void)
 {
 
@@ -77,7 +79,6 @@ void loop()
     currentMillis = millis();
     if (currentMillis - previousMillis > 100)
     {
-        previousMillis = currentMillis;
         String data_string = "";
         float gyroX = 0;
         float gyroY = 0;
@@ -98,12 +99,55 @@ void loop()
         gyroY = g.gyro.y;
         gyroZ = g.gyro.z;
         pressure = bmp.readPressure();
-        altitude = bmp.readAltitude();
-        if (altitude < (valorAnteriorAltitude))
+        altitude = bmp.readAltitude(round(pressure * 1.001));
+        float smoothedAltitude = smoothAltitude(altitude);
+
+        Serial.print("Alt: ");
+        Serial.println(smoothedAltitude);
+
+        Serial.println(valorAnteriorAltitude);
+        Serial.println(currentMillis);
+        Serial.println(previousMillis);
+
+        float descentRate = ((valorAnteriorAltitude - smoothedAltitude) / ((currentMillis - previousMillis) / 1000.0));
+        if (descentRate > 0)
+        {
+            Serial.print("Descending at rate: ");
+            Serial.println(descentRate);
+        }
+        else
+        {
+            Serial.print("Ascending at rate: ");
+            Serial.println(-descentRate); // Print ascent rate as a positive number
+        }
+        Serial.println(accelZ);
+
+        if (descentRate > 10.0 && (currentMillis - chuteLastTriggered) > 5000)
         {
             digitalWrite(triggerChute, HIGH);
+            chuteLastTriggered = currentMillis;
+            Serial.println("Parachute deployed!");
+            debug(2);
         }
-        valorAnteriorAltitude = altitude - 10;
+        else if ((accelZ < -5) && (currentMillis - chuteLastTriggered) > 5000)
+        {
+            digitalWrite(triggerChute, HIGH);
+            chuteLastTriggered = currentMillis;
+            Serial.println("Parachute deployed!");
+            debug(2);
+        }
+
+        valorAnteriorAltitude = smoothedAltitude;
+
+        /*if (altitude < valorAnteriorAltitude)
+        {
+            digitalWrite(triggerChute, HIGH);
+            Serial.println("Paracaidas");
+            debug(2);
+        }
+        valorAnteriorAltitude = altitude - 2;
+        Serial.print("Alt_Control: ");
+        Serial.println(valorAnteriorAltitude);*/
 
         data_string += String(accelX);
         data_string += "|";
@@ -122,6 +166,7 @@ void loop()
         data_string += String(altitude);
 
         logging(data_string);
+        previousMillis = currentMillis;
     }
 }
 
@@ -132,6 +177,11 @@ void logging(String data)
     {
         dataFile.println(data);
         dataFile.close();
+    }
+    else
+    {
+        Serial.println("Failed to write to SD card!");
+        debug(3); // Indicate SD error
     }
 }
 
@@ -152,4 +202,21 @@ void debug(int qtd)
         i++;
         delay(500);
     }
+}
+
+const int smoothingWindow = 3;
+float altitudeBuffer[smoothingWindow] = {0};
+int bufferIndex = 0;
+
+float smoothAltitude(float newAltitude)
+{
+    altitudeBuffer[bufferIndex] = newAltitude;
+    bufferIndex = (bufferIndex + 1) % smoothingWindow;
+
+    float sum = 0;
+    for (int i = 0; i < smoothingWindow; i++)
+    {
+        sum += altitudeBuffer[i];
+    }
+    return sum / smoothingWindow;
 }

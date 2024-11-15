@@ -2,55 +2,55 @@
   {
     "Sourcefile": null,
     "Include": "",
-    "Includepath": "/home/lopes/.arduino15/packages/esp32/hardware/esp32/3.0.3/cores/esp32"
+    "Includepath": "/home/lopes/.arduino15/packages/esp32/hardware/esp32/3.0.5/cores/esp32"
   },
   {
     "Sourcefile": null,
     "Include": "",
-    "Includepath": "/home/lopes/.arduino15/packages/esp32/hardware/esp32/3.0.3/variants/esp32"
+    "Includepath": "/home/lopes/.arduino15/packages/esp32/hardware/esp32/3.0.5/variants/esp32"
   },
   {
-    "Sourcefile": "/home/lopes/Documents/GitHub/UFPel_Rocket_Team-URT-/build/sketch/Avion.ino.cpp",
+    "Sourcefile": "/home/lopes/Documents/GitHub/Rocket_Team/build/sketch/Avion.ino.cpp",
     "Include": "Adafruit_BMP085.h",
     "Includepath": "/home/lopes/Arduino/libraries/Adafruit_BMP085_Library"
   },
   {
-    "Sourcefile": "/home/lopes/Documents/GitHub/UFPel_Rocket_Team-URT-/build/sketch/Avion.ino.cpp",
+    "Sourcefile": "/home/lopes/Documents/GitHub/Rocket_Team/build/sketch/Avion.ino.cpp",
     "Include": "Adafruit_I2CDevice.h",
     "Includepath": "/home/lopes/Arduino/libraries/Adafruit_BusIO"
   },
   {
-    "Sourcefile": "/home/lopes/Documents/GitHub/UFPel_Rocket_Team-URT-/build/sketch/Avion.ino.cpp",
+    "Sourcefile": "/home/lopes/Documents/GitHub/Rocket_Team/build/sketch/Avion.ino.cpp",
     "Include": "Wire.h",
-    "Includepath": "/home/lopes/.arduino15/packages/esp32/hardware/esp32/3.0.3/libraries/Wire/src"
+    "Includepath": "/home/lopes/.arduino15/packages/esp32/hardware/esp32/3.0.5/libraries/Wire/src"
   },
   {
-    "Sourcefile": "/home/lopes/Documents/GitHub/UFPel_Rocket_Team-URT-/build/sketch/Avion.ino.cpp",
+    "Sourcefile": "/home/lopes/Documents/GitHub/Rocket_Team/build/sketch/Avion.ino.cpp",
     "Include": "Adafruit_MPU6050.h",
     "Includepath": "/home/lopes/Arduino/libraries/Adafruit_MPU6050"
   },
   {
-    "Sourcefile": "/home/lopes/Documents/GitHub/UFPel_Rocket_Team-URT-/build/sketch/Avion.ino.cpp",
+    "Sourcefile": "/home/lopes/Documents/GitHub/Rocket_Team/build/sketch/Avion.ino.cpp",
     "Include": "SPI.h",
-    "Includepath": "/home/lopes/.arduino15/packages/esp32/hardware/esp32/3.0.3/libraries/SPI/src"
+    "Includepath": "/home/lopes/.arduino15/packages/esp32/hardware/esp32/3.0.5/libraries/SPI/src"
   },
   {
-    "Sourcefile": "/home/lopes/Documents/GitHub/UFPel_Rocket_Team-URT-/build/sketch/Avion.ino.cpp",
+    "Sourcefile": "/home/lopes/Documents/GitHub/Rocket_Team/build/sketch/Avion.ino.cpp",
     "Include": "Adafruit_Sensor.h",
     "Includepath": "/home/lopes/Arduino/libraries/Adafruit_Unified_Sensor"
   },
   {
-    "Sourcefile": "/home/lopes/Documents/GitHub/UFPel_Rocket_Team-URT-/build/sketch/Avion.ino.cpp",
+    "Sourcefile": "/home/lopes/Documents/GitHub/Rocket_Team/build/sketch/Avion.ino.cpp",
     "Include": "SD.h",
-    "Includepath": "/home/lopes/.arduino15/packages/esp32/hardware/esp32/3.0.3/libraries/SD/src"
+    "Includepath": "/home/lopes/.arduino15/packages/esp32/hardware/esp32/3.0.5/libraries/SD/src"
   },
   {
-    "Sourcefile": "/home/lopes/Documents/GitHub/UFPel_Rocket_Team-URT-/build/sketch/Avion.ino.cpp",
+    "Sourcefile": "/home/lopes/Documents/GitHub/Rocket_Team/build/sketch/Avion.ino.cpp",
     "Include": "FS.h",
-    "Includepath": "/home/lopes/.arduino15/packages/esp32/hardware/esp32/3.0.3/libraries/FS/src"
+    "Includepath": "/home/lopes/.arduino15/packages/esp32/hardware/esp32/3.0.5/libraries/FS/src"
   },
   {
-    "Sourcefile": "/home/lopes/Documents/GitHub/UFPel_Rocket_Team-URT-/build/sketch/Avion.ino.cpp",
+    "Sourcefile": "/home/lopes/Documents/GitHub/Rocket_Team/build/sketch/Avion.ino.cpp",
     "Include": "",
     "Includepath": null
   },
@@ -75,7 +75,7 @@
     "Includepath": null
   },
   {
-    "Sourcefile": "/home/lopes/.arduino15/packages/esp32/hardware/esp32/3.0.3/libraries/Wire/src/Wire.cpp",
+    "Sourcefile": "/home/lopes/.arduino15/packages/esp32/hardware/esp32/3.0.5/libraries/Wire/src/Wire.cpp",
     "Include": "",
     "Includepath": null
   },
@@ -85,7 +85,7 @@
     "Includepath": null
   },
   {
-    "Sourcefile": "/home/lopes/.arduino15/packages/esp32/hardware/esp32/3.0.3/libraries/SPI/src/SPI.cpp",
+    "Sourcefile": "/home/lopes/.arduino15/packages/esp32/hardware/esp32/3.0.5/libraries/SPI/src/SPI.cpp",
     "Include": "",
     "Includepath": null
   },
@@ -95,27 +95,27 @@
     "Includepath": null
   },
   {
-    "Sourcefile": "/home/lopes/.arduino15/packages/esp32/hardware/esp32/3.0.3/libraries/SD/src/SD.cpp",
+    "Sourcefile": "/home/lopes/.arduino15/packages/esp32/hardware/esp32/3.0.5/libraries/SD/src/SD.cpp",
     "Include": "",
     "Includepath": null
   },
   {
-    "Sourcefile": "/home/lopes/.arduino15/packages/esp32/hardware/esp32/3.0.3/libraries/SD/src/sd_diskio.cpp",
+    "Sourcefile": "/home/lopes/.arduino15/packages/esp32/hardware/esp32/3.0.5/libraries/SD/src/sd_diskio.cpp",
     "Include": "",
     "Includepath": null
   },
   {
-    "Sourcefile": "/home/lopes/.arduino15/packages/esp32/hardware/esp32/3.0.3/libraries/SD/src/sd_diskio_crc.c",
+    "Sourcefile": "/home/lopes/.arduino15/packages/esp32/hardware/esp32/3.0.5/libraries/SD/src/sd_diskio_crc.c",
     "Include": "",
     "Includepath": null
   },
   {
-    "Sourcefile": "/home/lopes/.arduino15/packages/esp32/hardware/esp32/3.0.3/libraries/FS/src/FS.cpp",
+    "Sourcefile": "/home/lopes/.arduino15/packages/esp32/hardware/esp32/3.0.5/libraries/FS/src/FS.cpp",
     "Include": "",
     "Includepath": null
   },
   {
-    "Sourcefile": "/home/lopes/.arduino15/packages/esp32/hardware/esp32/3.0.3/libraries/FS/src/vfs_api.cpp",
+    "Sourcefile": "/home/lopes/.arduino15/packages/esp32/hardware/esp32/3.0.5/libraries/FS/src/vfs_api.cpp",
     "Include": "",
     "Includepath": null
   }

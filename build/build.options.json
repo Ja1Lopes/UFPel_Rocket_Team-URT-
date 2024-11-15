@@ -3,9 +3,9 @@
   "builtInToolsFolders": "",
   "compiler.optimization_flags": "-Os",
   "customBuildProperties": "",
-  "fqbn": "esp32:esp32:esp32:JTAGAdapter=default,PSRAM=disabled,PartitionScheme=default,CPUFreq=40,FlashMode=qio,FlashFreq=80,FlashSize=4M,UploadSpeed=115200,LoopCore=1,EventsCore=1,DebugLevel=verbose,EraseFlash=all,ZigbeeMode=default",
+  "fqbn": "esp32:esp32:esp32:JTAGAdapter=default,PSRAM=disabled,PartitionScheme=default,CPUFreq=40,FlashMode=qio,FlashFreq=80,FlashSize=4M,UploadSpeed=115200,LoopCore=1,EventsCore=1,DebugLevel=none,EraseFlash=all,ZigbeeMode=default",
   "hardwareFolders": "/home/lopes/.arduino15/packages",
   "otherLibrariesFolders": "/home/lopes/Arduino/libraries",
   "runtime.ide.version": "10607",
-  "sketchLocation": "/home/lopes/Documents/GitHub/UFPel_Rocket_Team-URT-/Avion"
+  "sketchLocation": "/home/lopes/Documents/GitHub/Rocket_Team/Avion"
 }
